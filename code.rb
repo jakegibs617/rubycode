@@ -291,91 +291,84 @@ def check_word(potential_word)
 	end
 end
 
-def show_all_valid_sentences(input)
+# def show_all_valid_sentences(input)
 
-	all_options_of_chars = []
+# 	all_options_of_chars = []
 
-	array_single_chars = single_char_words(input)
-	# p array_single_chars
-	# ["a", "b", "c", "d", "e", "f", "g"]
+# 	array_single_chars = single_char_words(input)
+# 	# p array_single_chars
+# 	# ["a", "b", "c", "d", "e", "f", "g"]
 
+# 	array_single_chars.each_with_index do |item, index|
+# 		array = []
 
-
-	array_single_chars.each_with_index do |item, index|
-		array = []
-
-		# first bit
-		potential_word = (array_single_chars[0..index]).join
+# 		# first bit
+# 		potential_word = (array_single_chars[0..index]).join
 		
-		if check_word(potential_word) 
-			valid_word = potential_word
-			array << valid_word
-			return array
+# 		if check_word(potential_word) 
+# 			valid_word = potential_word
+# 			array << valid_word
+# 			return array
 
-		else
-			until n == array_single_chars.length || true
-				potential_word = (array_single_chars[0..index+n]).join
-				check_word(potential_word)
-				valid_word = potential_word
-				array << valid_word
-				return array
-			end
-		end
-
-
-			# but if it runs out of options for words, then delete the item for the array
+# 		else
+# 			until n == array_single_chars.length || true
+# 				potential_word = (array_single_chars[0..index+n]).join
+# 				check_word(potential_word)
+# 				valid_word = potential_word
+# 				array << valid_word
+# 				return array
+# 			end
+# 		end
 
 
+# 			# but if it runs out of options for words, then delete the item for the array
 
-		# num to get 2nd half
+
+
+# 		# num to get 2nd half
 		
-		# second half
-		# array << (array_single_chars[(index+1)..array_single_chars.length]).join
-		all_options_of_chars << array
-	end
+# 		# second half
+# 		# array << (array_single_chars[(index+1)..array_single_chars.length]).join
+# 		all_options_of_chars << array
+# 	end
 
-	# figure out how to repet process for multiple breaks in the array
+# 	# figure out how to repet process for multiple breaks in the array
 
-	return all_options_of_chars
-end
+# 	return all_options_of_chars
+# end
 
-def all_possible_word_combos
-	nouns = ["abcd", "c", "def", "h", "ij", "cde"]
-	verbs = ["bc", "fg", "g", "hij", "bcd"]
-	articles = ["a", "ac", "e"]
+# def all_possible_word_combos
+# 	nouns = ["abcd", "c", "def", "h", "ij", "cde"]
+# 	verbs = ["bc", "fg", "g", "hij", "bcd"]
+# 	articles = ["a", "ac", "e"]
 
-	all = nouns + verbs + articles
-	return all.sort
-end
+# 	all = nouns + verbs + articles
+# 	return all.sort
+# end
 
 # p all_possible_word_combos
 # ["a", "abcd", "ac", "bc", "bcd", "c", "cde", "def", "e", "fg", "g", "h", "hij", "ij"]
 
 def split_lots(input)
-	arr = all_possible_word_combos
-
-		# if x to char contains any of the characters in the following index, then ignore and go one more
-		# if x to char does not contain any characters in the following index, then add the next index to the item array
-		# until the length of the possible combos equals the index, continue to the next index to see if it can be added
-		# once one pass is complete, start again with the starting block of +1 from the last until the starting block is equal to the length
-
 	nouns = ["abcd", "c", "def", "h", "ij", "cde"]
 	verbs = ["bc", "fg", "g", "hij", "bcd"]
-	verbs = verbs.sort_by {|x| x.length}
+	# verbs = verbs.sort_by {|x| x.length}
 	articles = ["a", "ac", "e"]
 
 		array = parse_for_noun(input)
-	# [["", "abcd", "efg"], ["ab", "c", "defg"], ["abc", "def", "g"], ["abcdefg", "h"], ["abcdefg", "ij"], ["ab", "cde", "fg"]]
+		# [["", "abcd", "efg"], ["ab", "c", "defg"], ["abc", "def", "g"], ["abcdefg", "h"], ["abcdefg", "ij"], ["ab", "cde", "fg"]]
 		index_counter = 0
 		counter = 1
 		count = 1
-		cleaned_array = []
+
 		array.each do |x|
 			# x = ["ab", "c", "defg"]
 			x_with_nouns = []
 			x_with_nouns << x
 			x_with_no_nouns = []
+			x_with_no_verbs = []
 			removed_nouns = []
+			removed_verbs = []
 
 			x.each do |i|
 				# i = "ab"
@@ -391,83 +384,45 @@ def split_lots(input)
 					end
 				end
 
-				# sanitzed_array = []
-				# if nouns.include?(i)
-					# p counter
-					# puts "this is i : #{i} , it is a noun counter is #{counter}", " " 
-					# sanitzed_array << i
-				# 	(1..(i.length)).each do |n|
-				# 		for noun in nouns do 
-				# 			if i.include?(noun)
-								
-				# 				sanitzed_array.insert(index_counter, noun)
-								
-				# 				i = i.split(noun)
-				# 			end
-				# 			cleaned_array.insert(index_counter,sanitzed_array)
-				# 			i.delete(noun)
-				# 		end
-				# 	end
-				# 	counter +=1
-				# end
-				# puts "does this contain a verb? : #{i} ", " " 
-				# does thhis contain a verb? : abcdefg String
-				# (1..(i.length)).each do |n|
-				# 	for verb in verbs do 
-				# 		if i.include?(verb)
-				# 			i = i.split(verb)
-							
-				# 			# p index_counter
-				# 			sanitzed_array.insert(index_counter, verb)
-				# 		end
-				# 		cleaned_array.insert(index_counter,sanitzed_array)
-				# 		i.delete(verb)
-				# 	end
-				# end
-
-				# if verbs.include?(i)
-				# 	puts "this is i : #{i} , it is  a verb", " " 
-				# 	count +=1
-
-				# 	x.delete(i)
-				# elsif 
-				# 	temp_array = []
-				# 	temp_array.push(i)
-				# 	a = temp_array & verbs
-				# 	# p i.class
-				# 	p "temp_array: #{temp_array}"
-				# 	p "a: #{a}"
-				# 	p "verbs: #{verbs}"
-
-
-					# includes a verb, split the verb into another section of the string then sort
-				# elsif articles.include?(i)
-					# if i.count >= 2 
-
-						# x.delete(i)
-					# else
-						# print "#{i} is not more than 2 times"
-					# end
-					# find_duplicates_single_array(i)
-					# split the remaining articles up, does the string have "ac"? if so seperate
-					# does the string have an a? seperate
-					# does the string have an e? seperate
-					# are there remaining letters?
-						# if so, the sentence is not valid
-						#if false the sentence is valid, 
-							# store the sentence in sub array and store sub array in larger array
-				# end
+				
 			end
-				puts "#{index_counter}, "
-				puts "this is x with all #{x_with_nouns}"
-				puts "this is x with no nouns #{x_with_no_nouns}, "
-				puts "we removed , #{removed_nouns}"
-				puts ""
-				# p "sanitized: #{sanitzed_array}"
-				puts "if there is anything left in i, it should be 2 articles or more, otherwise it is not a sentence"
-				puts "if nothing is left, then sort the array and display as one option"
-				# p "cleaned_array: #{cleaned_array}"
-				puts ""
+
+			x = x_with_no_nouns
+			
+			x.each do |i|
+				x_with_no_verbs << i
+
+				for verb in verbs do 
+					if verb == i 
+						removed_verbs << verb
+						# puts "noun #{noun} is equal to i #{i}"
+						x_with_no_verbs.delete(verb)
+					else
+					end
+				end
+			end
+			puts "#{index_counter}, "
+			puts "this is x with nouns #{x_with_nouns}"
+			puts "we removed the noun, #{removed_nouns}"
+			puts "this is x with no nouns #{x_with_no_nouns}, "
+				# 5,
+				# this is x with nouns [["ab", "cde", "fg"]]
+				# this is x with no nouns ["ab", "fg"],
+				# we removed , ["cde"]
+			puts ""
+			puts "this is x with no nouns #{x_with_no_nouns} "
+			puts "this is x with no nouns, with no verbs #{x_with_no_verbs}"
+			puts "we removed the verbs #{removed_verbs}"
+				# expected x_with_no_verbs ["ab"]
+				# expected removed verbs ["fg"]
+				# got:
+				# this is x with no nouns ["ab", "fg"]
+				# this is x with no nouns, with no verbs ["ab"]
+				# we removed the verbs ["fg"]
+			puts ""
+			puts "if there is anything left in i, it should be 2 articles or more, otherwise it is not a sentence"
+			puts "if nothing is left, then sort the array and display as one option"
+			puts ""
 			index_counter += 1
 		end
 
