@@ -370,6 +370,9 @@ def split_lots(input)
 		
 
 		array.each do |x|
+			puts "#{index_counter}, "
+			puts "this is x: #{x} "
+			puts "processing..."
 			# x = ["ab", "c", "defg"]
 			# x_with_all = []
 			# x_with_all << x
@@ -382,6 +385,8 @@ def split_lots(input)
 			removed_verbs = []
 			removed_articles = []
 			left_overs_from_verb_surgerery = []
+			saved_verbs = []
+
 
 			x.each do |i|
 				# i = "ab"
@@ -393,54 +398,60 @@ def split_lots(input)
 						removed_nouns << noun
 						# puts "noun #{noun} is equal to i #{i}"
 						x_with_no_nouns.delete(noun)
+						puts "deleting noun: '#{noun}'"
 					else
 					end
 				end
 
 				
 			end
-			x.each do |i|
+			# x.each do |i|
 				
-				for noun in nouns do 
+			# 	for noun in nouns do 
 
-					i.delete(noun)
-					# removed_nouns << noun
-					# p i
+			# 		i.delete(noun)
+			# 		# removed_nouns << noun
+			# 		# p i
 				
-				end
-			end
+			# 	end
+			# end
 
 			x = x_with_no_nouns
 			
-			x.each do |i|
-				x_with_no_verbs << i
+			# x.each do |i|
+			# 	x_with_no_verbs << i
 				
-				i_verb = parse_for_verb(i)
-				i = i_verb[0][0]
-				# p i
-				for verb in verbs do 
-					if verb ==  i
-						removed_verbs << verb
-						# puts "noun #{noun} is equal to i #{i}"
-						x_with_no_verbs.delete(verb)
-					else
-					end
-				end
-			end
+			# 	i_verb = parse_for_verb(i)
+			# 	i = i_verb[0][0]
+			# 	# p i
+			# 	for verb in verbs do 
+			# 		if verb ==  i
+			# 			removed_verbs << verb
+			# 			# puts "noun #{noun} is equal to i #{i}"
+			# 			x_with_no_verbs.delete(verb)
+			# 			puts "deleting verb: '#{verb}'"
+			# 		else
+			# 		end
+			# 	end
+			# end
+			puts "deleting verbs..."
 			x.each do |i|
 				# p x
 				# ["abcdefg"]
 				# p i
 				# "abcdefg"
-				saved_verbs = []
+				# saved_verbs = []
 
 				for verb in verbs do 
 					# p i
 					if i.include?(verb)
-						puts "this contains the verb #{i}"
+						puts "does this text left-over contains the verb? '#{i}' verb: #{verb}"
 						puts "removing verb: #{verb}"
 						saved_verbs << verb
 						i = i.delete(verb)
+
+					else
+						# puts "no iscolated verbs present yet"
 					end
 					# "abcdef"
 					# "adef"
@@ -448,14 +459,19 @@ def split_lots(input)
 					# "ade"
 					# "ae"
 				end
-				puts "saved verbs #{saved_verbs}"
-				puts "left overs #{i}"
+				# puts "saved verbs #{saved_verbs}"
+				# puts "there were #{saved_verbs.count} saved verbs from left over strings"
 				left_overs_from_verb_surgerery << i
+				# puts "left overs #{left_overs_from_verb_surgerery}"
+
 			# x = x_with_no_verbs
 
 			end
 
 			# x = x_with_no_verbs
+			puts " "
+			puts "number of verbs removed #{saved_verbs.count}: #{saved_verbs}" 
+			puts "left overs #{left_overs_from_verb_surgerery}"
 			
 			x.each do |i|
 				x_with_no_articles << i
@@ -469,21 +485,25 @@ def split_lots(input)
 					end
 				end
 			end
-			puts "#{index_counter}, "
+			puts " "
+			puts "Summary: "
 			puts "this is x with all #{array[index_counter]}"
 			# puts "this is x with nouns #{x_with_nouns}"
-			puts "we removed the noun, #{removed_nouns}"
-			puts "this is x with no nouns #{x_with_no_nouns}, "
+			puts "i removed the noun, #{removed_nouns}"
+			# puts "this is x with no nouns #{x_with_no_nouns}, "
 				# 5,
 				# this is x with nouns [["ab", "cde", "fg"]]
 				# this is x with no nouns ["ab", "fg"],
 				# we removed , ["cde"]
 			puts ""
-			puts "this is x with no nouns #{x_with_no_nouns} "
+			puts "then i take x_with_no_nouns as new input #{x_with_no_nouns} "
 			# puts "these are all the verbs #{verbs}"
-			puts "this is x with no nouns, with 1 verb deleted #{x_with_no_verbs}"
+			# puts "this is x with no nouns, with 0-1 verb deleted #{x_with_no_verbs}"
+			puts "i then removed the verbs via string parsing #{saved_verbs}"
 			puts "this is x with no nouns, verbs deleted in the strings left #{left_overs_from_verb_surgerery}"
-			puts "we removed the verbs #{removed_verbs}"
+			# puts "we removed the verbs #{removed_verbs}"
+			puts "there were #{saved_verbs.count} saved verbs from left over strings"
+
 				# expected x_with_no_verbs ["ab"]
 				# expected removed verbs ["fg"]
 				# got:
@@ -491,13 +511,13 @@ def split_lots(input)
 				# this is x with no nouns, with no verbs ["ab"]
 				# we removed the verbs ["fg"]
 			puts ""
-			puts "this is x with no nouns, with no verbs #{x_with_no_verbs}"
+
 			puts "x with no articles #{x_with_no_articles}"
 			# puts "these are all the articles available #{articles}"
 			puts "we removed the articles #{removed_articles}"
 			puts ""
-			puts "if there is anything left in i, it should be 2 articles or more, otherwise it is not a sentence"
-			puts "if nothing is left, then sort the array and display as one option"
+			# puts "if there is anything left in i, it should be 2 articles or more, otherwise it is not a sentence"
+			# puts "if nothing is left, then sort the array and display as one option"
 			puts ""
 			index_counter += 1
 		end
