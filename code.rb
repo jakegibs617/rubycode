@@ -372,20 +372,25 @@ def split_lots(input)
 		cleaned_array = []
 		array.each do |x|
 			# x = ["ab", "c", "defg"]
-			x_with_nouns = x
+			x_with_nouns = []
+			x_with_nouns << x
 			x_with_no_nouns = []
-			x_with_no_nouns << x
+			removed_nouns = []
 
 			x.each do |i|
 				# i = "ab"
 				
+				x_with_no_nouns << i
 
 				for noun in nouns do 
 					if noun == i 
+						removed_nouns << noun
 						# puts "noun #{noun} is equal to i #{i}"
-						x_with_no_nouns = x_with_no_nouns.delete(i)
+						x_with_no_nouns.delete(noun)
+					else
 					end
 				end
+
 				# sanitzed_array = []
 				# if nouns.include?(i)
 					# p counter
@@ -419,15 +424,7 @@ def split_lots(input)
 				# 		i.delete(verb)
 				# 	end
 				# end
-				puts "#{index_counter}, #{x_with_nouns}"
-				p "this is x with no nouns #{x_with_no_nouns}, "
-				p "we removed , "
-				puts ""
-				# p "sanitized: #{sanitzed_array}"
-				puts "if there is anything left in i, it should be 2 articles or more, otherwise it is not a sentence"
-				puts "if nothing is left, then sort the array and display as one option"
-				# p "cleaned_array: #{cleaned_array}"
-				puts ""
+
 				# if verbs.include?(i)
 				# 	puts "this is i : #{i} , it is  a verb", " " 
 				# 	count +=1
@@ -461,7 +458,16 @@ def split_lots(input)
 							# store the sentence in sub array and store sub array in larger array
 				# end
 			end
-			
+				puts "#{index_counter}, "
+				puts "this is x with all #{x_with_nouns}"
+				puts "this is x with no nouns #{x_with_no_nouns}, "
+				puts "we removed , #{removed_nouns}"
+				puts ""
+				# p "sanitized: #{sanitzed_array}"
+				puts "if there is anything left in i, it should be 2 articles or more, otherwise it is not a sentence"
+				puts "if nothing is left, then sort the array and display as one option"
+				# p "cleaned_array: #{cleaned_array}"
+				puts ""
 			index_counter += 1
 		end
 
