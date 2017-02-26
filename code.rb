@@ -352,7 +352,7 @@ end
 def split_lots(input)
 	nouns = ["abcd", "c", "def", "h", "ij", "cde"]
 	verbs = ["bc", "fg", "g", "hij", "bcd"]
-	# verbs = verbs.sort_by {|x| x.length}
+	verbs = verbs.sort_by {|x| x.length}
 	articles = ["a", "ac", "e"]
 
 		array = parse_for_noun(input)
@@ -393,15 +393,53 @@ def split_lots(input)
 			
 			x.each do |i|
 				x_with_no_verbs << i
-
+				
+				i_verb = parse_for_verb(i)
+				i = i_verb[0][0]
+				# p i
 				for verb in verbs do 
-					if verb == i 
+					if verb ==  i
 						removed_verbs << verb
 						# puts "noun #{noun} is equal to i #{i}"
 						x_with_no_verbs.delete(verb)
 					else
 					end
 				end
+			end
+			x.each do |i|
+				# p i
+				# "ab"
+				# "fg"
+				for verb in verbs do 
+					i.delete!(verb)
+					# x_with_no_verbs = split_i
+					p i
+				end
+
+				# p split_i
+				# 0,
+				# ["efg"]
+				
+				# 1,
+				# ["ab"]
+				# ["defg"]
+				
+				# 2,
+				# ["abc"]
+				# ["g"]
+				
+				# 3,
+				# ["a", "efg"]
+				# expected no verbs remainder: "a", "e"
+				
+				# 4,
+				# ["a", "efg"]
+				# expected no verbs remainder: "a", "e"
+
+				# 5,
+				# ["ab"]
+				# ["fg"]
+				# expected no verbs remainder: "ab"
 			end
 
 			x = x_with_no_verbs
@@ -428,7 +466,8 @@ def split_lots(input)
 				# we removed , ["cde"]
 			puts ""
 			puts "this is x with no nouns #{x_with_no_nouns} "
-			puts "this is x with no nouns, with no verbs #{x_with_no_verbs}"
+			puts "these are all the verbs #{verbs}"
+			puts "this is x with no nouns, with 1 deleted #{x_with_no_verbs}"
 			puts "we removed the verbs #{removed_verbs}"
 				# expected x_with_no_verbs ["ab"]
 				# expected removed verbs ["fg"]
@@ -474,7 +513,7 @@ def split_lots(input)
 
 end
 
-p split_lots("abcdefg")
+split_lots("abcdefg")
 
 # p show_all_valid_sentences("abcdefg")
 # expect =>
