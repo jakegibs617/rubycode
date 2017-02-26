@@ -371,47 +371,57 @@ def split_lots(input)
 		count = 1
 		cleaned_array = []
 		array.each do |x|
+			# x = ["ab", "c", "defg"]
+			x_with_nouns = x
+			x_with_no_nouns = []
+			x_with_no_nouns << x
 
 			x.each do |i|
-				sanitzed_array = []
-				if nouns.include?(i)
+				# i = "ab"
+				
+
+				for noun in nouns do 
+					if noun == i 
+						# puts "noun #{noun} is equal to i #{i}"
+						x_with_no_nouns = x_with_no_nouns.delete(i)
+					end
+				end
+				# sanitzed_array = []
+				# if nouns.include?(i)
 					# p counter
 					# puts "this is i : #{i} , it is a noun counter is #{counter}", " " 
 					# sanitzed_array << i
-					(1..(i.length)).each do |n|
-						for noun in nouns do 
-							if i.include?(noun)
-								i = i.split(noun)
+				# 	(1..(i.length)).each do |n|
+				# 		for noun in nouns do 
+				# 			if i.include?(noun)
 								
-								# p index_counter
-								sanitzed_array.insert(index_counter, noun)
-								# p index_counter
-							end
-							cleaned_array.insert(index_counter,sanitzed_array)
-							i.delete(noun)
-						end
-					end
-					counter +=1
-				end
-
+				# 				sanitzed_array.insert(index_counter, noun)
+								
+				# 				i = i.split(noun)
+				# 			end
+				# 			cleaned_array.insert(index_counter,sanitzed_array)
+				# 			i.delete(noun)
+				# 		end
+				# 	end
+				# 	counter +=1
+				# end
 				# puts "does this contain a verb? : #{i} ", " " 
 				# does thhis contain a verb? : abcdefg String
-				(1..(i.length)).each do |n|
-					for verb in verbs do 
-						if i.include?(verb)
-							i = i.split(verb)
+				# (1..(i.length)).each do |n|
+				# 	for verb in verbs do 
+				# 		if i.include?(verb)
+				# 			i = i.split(verb)
 							
-							# p index_counter
-							sanitzed_array.insert(index_counter, verb)
-						end
-						cleaned_array.insert(index_counter,sanitzed_array)
-						i.delete(verb)
-					end
-				end
-				puts "#{index_counter}"
-				p "this is x #{x}, "
-				p "this is i with no nouns or verbs #{i}, "
-				p "we removed #{sanitzed_array}, "
+				# 			# p index_counter
+				# 			sanitzed_array.insert(index_counter, verb)
+				# 		end
+				# 		cleaned_array.insert(index_counter,sanitzed_array)
+				# 		i.delete(verb)
+				# 	end
+				# end
+				puts "#{index_counter}, #{x_with_nouns}"
+				p "this is x with no nouns #{x_with_no_nouns}, "
+				p "we removed , "
 				puts ""
 				# p "sanitized: #{sanitzed_array}"
 				puts "if there is anything left in i, it should be 2 articles or more, otherwise it is not a sentence"
