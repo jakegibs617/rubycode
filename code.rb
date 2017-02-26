@@ -367,8 +367,10 @@ def split_lots(input)
 			x_with_nouns << x
 			x_with_no_nouns = []
 			x_with_no_verbs = []
+			x_with_no_articles = []
 			removed_nouns = []
 			removed_verbs = []
+			removed_articles = []
 
 			x.each do |i|
 				# i = "ab"
@@ -401,6 +403,21 @@ def split_lots(input)
 					end
 				end
 			end
+
+			x = x_with_no_verbs
+			
+			x.each do |i|
+				x_with_no_articles << i
+
+				for article in articles do 
+					if article == i 
+						removed_articles << article
+						# puts "noun #{noun} is equal to i #{i}"
+						x_with_no_articles.delete(article)
+					else
+					end
+				end
+			end
 			puts "#{index_counter}, "
 			puts "this is x with nouns #{x_with_nouns}"
 			puts "we removed the noun, #{removed_nouns}"
@@ -419,6 +436,11 @@ def split_lots(input)
 				# this is x with no nouns ["ab", "fg"]
 				# this is x with no nouns, with no verbs ["ab"]
 				# we removed the verbs ["fg"]
+			puts ""
+			puts "this is x with no nouns, with no verbs #{x_with_no_verbs}"
+			puts "x with no articles #{x_with_no_articles}"
+			puts "these are all the articles available #{articles}"
+			puts "we removed the articles #{removed_articles}"
 			puts ""
 			puts "if there is anything left in i, it should be 2 articles or more, otherwise it is not a sentence"
 			puts "if nothing is left, then sort the array and display as one option"
