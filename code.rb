@@ -46,6 +46,8 @@
 
 # Note: Make sure to list all (if any) assumptions you make. 
 
+# Assumptions: a sentence should either have 3 or 4 words based on the examples and no rule 
+
 def all_possible_word_combos(input)
 	nouns = ["abcd", "c", "def", "h", "ij", "cde"]
 	verbs = ["bc", "fg", "g", "hij", "bcd"]
@@ -60,7 +62,9 @@ def all_possible_word_combos(input)
 			temp_array_for_combo << word
 		end
 	end
-	temp_array_test_validity = temp_array_for_combo.combination(4).to_a + temp_array_for_combo.combination(3).to_a 
+	# how many words can be in sentence?
+	# we dont have any rules for word count in a sentence, only examples are 3 or 4 word sentences
+	temp_array_test_validity = temp_array_for_combo.combination(4).to_a + temp_array_for_combo.combination(3).to_a   
 
 	for sentence in temp_array_test_validity do 
 		# sort the characters 
@@ -78,7 +82,7 @@ def all_possible_word_combos(input)
 	return all_valid_sentences_based_on_input
 end
 
-all_possible_word_combos("abcdefg")
+p all_possible_word_combos("abcdefg")
 test_case_1 = all_possible_word_combos("abcdefg")
 # show_all_valid_sentences("abcdefg")
 # expect =>
@@ -89,7 +93,7 @@ test_case_1 = all_possible_word_combos("abcdefg")
 # ]
 
 puts " "
-all_possible_word_combos("abcc")
+p all_possible_word_combos("abcc")
 test_case_2 = all_possible_word_combos("abcc")
 
 # show_all_valid_sentences("abcc")
@@ -97,8 +101,11 @@ test_case_2 = all_possible_word_combos("abcc")
 # ["a bc c"]
 
 puts " "
-all_possible_word_combos("abcd")
+p all_possible_word_combos("abcd")
 test_case_3 = all_possible_word_combos("abcd")
+
+all_possible_word_combos("abcdg")
+test_case_4 = all_possible_word_combos("abcdg")
 
 # p test_case_1 
 # [["a", "bc", "def", "g"], ["a", "bcd", "e", "fg"], ["abcd", "e", "fg"]]
@@ -121,51 +128,58 @@ def valid_sentence?(sentence_array)
 	if sentence_array.class == Array
 		# continue
 		for sentence in sentence_array do 
+
+			# are all the words valid in the dictionary?	
 			all = nouns + verbs + articles
 			for word in sentence do 
 				if all.include?(word)
 					# p "this word is valid"
 				else
 					p "#{word} is not a valid word in the dictionary"
-					false
+					return false
 				end
 			end
+			# p "all words in sentence ar valid words.."
+			
+			# does it have a verb?
 			v = (sentence & verbs)
 			if v.count > 0
-				p "sentence at index #{sentence_counter} has at least 1 verb #{v}"
-				# continue
+				# p "sentence at index #{sentence_counter} has at least 1 verb #{v}"
 
 				# does it have 1 noun? or if not, does it have 2 articles?
 				n = (sentence & nouns)
+
 				if n.count > 0
-					p "sentence at index #{sentence_counter} has a noun #{n}"
-					# continue
+					# p "sentence at index #{sentence_counter} has a noun #{n}"
 
 				else
 					# 2 articles?
 					a = (sentence & articles)
 					if a.count >= 2
-						p "sentence at index #{sentence_counter} has no noun, but 2 articles #{a}"
-
-						# continue
+						# p "sentence at index #{sentence_counter} has no noun, but 2 articles #{a}"
 					else
 						return false
 					end
 				end
-				# are all the words valid in the dictionary?
 			else
+				p "false sentence, does not contain a verb #{sentence}"
 				return false
 				# this sentence does not have a verb
 			end
 			sentence_counter += 1
 		end
-		
+		puts ""
+		puts "every sentence is valid! \n #{sentence_array}"
+		return true
 	else
+		p "the input is not valid, needs to be an array"
 		return false
 		# remove this from the array
 		# will have to trick the system
 	end
 	
 end
-p valid_sentence?(test_case_1)
+valid_sentence?(test_case_1)
+valid_sentence?(test_case_2)
+valid_sentence?(test_case_3)
 # expect true
