@@ -409,8 +409,11 @@ def show_all_valid_sentences(input)
 			
 			# puts "deleting verbs..."
 			x.each do |i|
+				if i == nil
+					i = ""
+				end
 				for verb in verbs do 
-					if i.include?(verb)
+					if i.include?(verb) 
 # for each variation save different arrangement of verbs
 						# puts "does this text left-over contains the verb? '#{i}' verb: #{verb}"
 						# puts "removing verb: #{verb}"
@@ -418,6 +421,7 @@ def show_all_valid_sentences(input)
 						staging_sentence.insert(index_counter, verb)
 						i = i.delete(verb)
 					else
+						staging_sentence.insert(index_counter, "")
 					end
 				end
 				left_overs_from_verb_surgerery << i
@@ -489,17 +493,18 @@ def show_all_valid_sentences(input)
 			# puts ""
 			index_counter += 1
 		end
-			if valid_sentence == nil
-				valid_sentence = ""
-			else	
-				final_output << valid_sentence[1..valid_sentence.count] # for sentence in valid_sentence do
-				output = final_output[0]
+
+			final_output << valid_sentence[1..valid_sentence.count] # for sentence in valid_sentence do
+			output = final_output[0]
+			for o in output do	
+				o = o.select! { |x| !x.empty? }
+				if  nil || o & verbs == false
+					output = 	""
+				end
 			end
-			# for o in output do	
-			# 	o.sort!
-			# end
-			# if output == nil
-			# 	output = ""
+
+			# if output[0].count < 3
+				# output = ""
 			# end
 			puts "input : #{input}"
 			puts "output: #{output}"
@@ -529,10 +534,10 @@ def show_all_valid_sentences(input)
 
 end
 
-show_all_valid_sentences("abcdefg")
+# show_all_valid_sentences("abcdefg")
 # abcd fg e
 
-# p show_all_valid_sentences("abcdefg")
+p show_all_valid_sentences("abcdefg")
 # expect =>
 # [
 # "a bc def g",
@@ -540,15 +545,15 @@ show_all_valid_sentences("abcdefg")
 # "abcd e fg"
 # ]
 
-# puts " "
+puts " "
 
 show_all_valid_sentences("abcc")
 # expect =>
 # ["a bc c"]
 
-# puts " "
+puts " "
 
 show_all_valid_sentences("abcd")
 # expect =>
 # []
-# puts " "
+puts " "
