@@ -368,6 +368,7 @@ def split_lots(input)
 		counter = 1
 		count = 1
 		
+		valid_sentence = []
 
 		array.each do |x|
 			puts "#{index_counter}, "
@@ -385,7 +386,11 @@ def split_lots(input)
 			removed_verbs = []
 			removed_articles = []
 			left_overs_from_verb_surgerery = []
+			left_overs_from_article_surgerery = []
 			saved_verbs = []
+			saved_articles = []
+			saved_nouns = []
+			valid_counter = 0
 
 
 			x.each do |i|
@@ -394,11 +399,16 @@ def split_lots(input)
 				x_with_no_nouns << i
 
 				for noun in nouns do 
+					noun_counter = 0
 					if noun == i 
 						removed_nouns << noun
+						# saved_nouns.insert(index_counter, noun)
+						valid_sentence.insert(noun_counter, noun)
+
 						# puts "noun #{noun} is equal to i #{i}"
 						x_with_no_nouns.delete(noun)
 						puts "deleting noun: '#{noun}'"
+						noun_counter += 1
 					else
 					end
 				end
@@ -442,37 +452,48 @@ def split_lots(input)
 				# "abcdefg"
 				# saved_verbs = []
 
+				# for verb in verbs do 
+				# 	counter = 0
+				# 	# p i
+				# 	if i.include?(verb)
+				# 		counter += 1
+				# 		# puts "no iscolated verbs present yet"
+				# 	end
+				# 	if counter > 1
+				# 		1..counter do
+				# 			array << x
+				# 		end
+				# 	end
+				# end
 				for verb in verbs do 
 					# p i
 					if i.include?(verb)
+# for each variation save different arrangement of verbs
 						puts "does this text left-over contains the verb? '#{i}' verb: #{verb}"
 						puts "removing verb: #{verb}"
 						saved_verbs << verb
-						i = i.delete(verb)
 
+						# counter is the total
+						# num = 0
+						i = i.delete(verb)
+						# if index 
+						# num += 1
 					else
 						# puts "no iscolated verbs present yet"
 					end
-					# "abcdef"
-					# "adef"
-					# "ade"
-					# "ade"
-					# "ae"
 				end
 				# puts "saved verbs #{saved_verbs}"
 				# puts "there were #{saved_verbs.count} saved verbs from left over strings"
 				left_overs_from_verb_surgerery << i
 				# puts "left overs #{left_overs_from_verb_surgerery}"
 
-			# x = x_with_no_verbs
-
 			end
-
 			# x = x_with_no_verbs
 			puts " "
 			puts "number of verbs removed #{saved_verbs.count}: #{saved_verbs}" 
 			puts "left overs #{left_overs_from_verb_surgerery}"
 			
+			x = left_overs_from_verb_surgerery
 			x.each do |i|
 				x_with_no_articles << i
 
@@ -483,6 +504,33 @@ def split_lots(input)
 						x_with_no_articles.delete(article)
 					else
 					end
+				end
+
+				for article in articles do 					
+					# p i
+					if i.include?(article)
+
+						puts "does this text left-over contains the article? '#{i}' article: #{article}"
+						puts "removing article: #{article}"
+						saved_articles << article
+
+						i = i.delete(article)
+					else
+						# puts "no iscolated verbs present yet"
+					end
+				end
+				# puts "saved verbs #{saved_verbs}"
+				# puts "there were #{saved_verbs.count} saved verbs from left over strings"
+				left_overs_from_article_surgerery << i
+
+				if left_overs_from_article_surgerery.join.length < 1
+					puts "this is a valid sentence"
+					# valid_sentence << x
+					puts valid_sentence
+					# valid_sentence.insert(valid_counter, saved_verbs)
+					# valid_sentence.insert(valid_counter, saved_articles)
+					# valid_sentence.insert(valid_counter, saved_nouns)
+					valid_counter += 1
 				end
 			end
 			puts " "
@@ -512,9 +560,11 @@ def split_lots(input)
 				# we removed the verbs ["fg"]
 			puts ""
 
-			puts "x with no articles #{x_with_no_articles}"
+			puts "x with no articles #{left_overs_from_article_surgerery}"
+				
+
 			# puts "these are all the articles available #{articles}"
-			puts "we removed the articles #{removed_articles}"
+			puts "we removed the articles #{saved_articles}"
 			puts ""
 			# puts "if there is anything left in i, it should be 2 articles or more, otherwise it is not a sentence"
 			# puts "if nothing is left, then sort the array and display as one option"
@@ -522,6 +572,7 @@ def split_lots(input)
 			index_counter += 1
 		end
 
+			puts "#{valid_sentence.sort}"
 
 	## check for step 1
 	# Out of the remaining letters, can words be created with the fragments without changing the order
@@ -549,6 +600,7 @@ def split_lots(input)
 end
 
 split_lots("abcdefg")
+# abcd fg e
 
 # p show_all_valid_sentences("abcdefg")
 # expect =>
