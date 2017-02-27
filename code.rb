@@ -258,109 +258,77 @@ end
 # p parse_for_noun("abcdefg")
 # [["", "abcd", "efg"], ["ab", "c", "defg"], ["abc", "def", "g"], ["abcdefg", "h"], ["abcdefg", "ij"], ["ab", "cde", "fg"]]
 
-def parse_for_verb(input)
-	verbs = ["bc", "fg", "g", "hij", "bcd"]
-	all_options_split_with_nouns = parse_for_noun(input)
+# def parse_for_verb(input)
+# 	verbs = ["bc", "fg", "g", "hij", "bcd"]
+# 	all_options_split_with_nouns = parse_for_noun(input)
 
-	for array in all_options_split_with_nouns do
-		for potential_word in array do 
-			unless all_possible_words(input).include?(potential_word)
-				all_options_split_with_nouns.delete(array)
-				# [["ab", "c", "defg"], ["abcdefg", "h"], ["ab", "cde", "fg"]]
-			end
-		end
-	end
-	all_options_nouns_and_verbs = all_options_split_with_nouns
+# 	for array in all_options_split_with_nouns do
+# 		for potential_word in array do 
+# 			unless all_possible_words(input).include?(potential_word)
+# 				all_options_split_with_nouns.delete(array)
+# 				# [["ab", "c", "defg"], ["abcdefg", "h"], ["ab", "cde", "fg"]]
+# 			end
+# 		end
+# 	end
+# 	all_options_nouns_and_verbs = all_options_split_with_nouns
 
-	return all_options_nouns_and_verbs
-end
+# 	return all_options_nouns_and_verbs
+# end
 # p parse_for_verb("abcdefg")
 # ["abcdef", "g"]
 
-def check_word(potential_word)
+def all_possible_word_combos(input)
+	nouns = ["abcd", "c", "def", "h", "ij", "cde"]
+	verbs = ["bc", "fg", "g", "hij", "bcd"]
+	articles = ["a", "ac", "e"]
+	all = nouns + verbs + articles
 	array = []
-	n = 0
-	if ["a", "e", "g", "bc", "fg", "bcd", "c", "cde", "def", "abcd"].include?(potential_word)
-		return true
-	else
-		n += 1
-		return n
+	all_options_of_input = []
+
+	for word in all do 
+		if input.include?(word)
+			array << word
+		end
 	end
+	temp = array.combination(4).to_a + array.combination(3).to_a 
+
+	for a in temp do 
+		# p a.sort 
+		x = a.join.chars.sort
+		x = x.join
+		if x == input
+			all_options_of_input.push(a)
+		end
+	end
+
+	for a in all_options_of_input do 
+		a = a.sort
+	end
+	p all_options_of_input
+	return all_options_of_input
+
 end
 
-# def show_all_valid_sentences(input)
+all_possible_word_combos("abcdefg")
 
-# 	all_options_of_chars = []
-
-# 	array_single_chars = single_char_words(input)
-# 	# p array_single_chars
-# 	# ["a", "b", "c", "d", "e", "f", "g"]
-
-# 	array_single_chars.each_with_index do |item, index|
-# 		array = []
-
-# 		# first bit
-# 		potential_word = (array_single_chars[0..index]).join
-		
-# 		if check_word(potential_word) 
-# 			valid_word = potential_word
-# 			array << valid_word
-# 			return array
-
-# 		else
-# 			until n == array_single_chars.length || true
-# 				potential_word = (array_single_chars[0..index+n]).join
-# 				check_word(potential_word)
-# 				valid_word = potential_word
-# 				array << valid_word
-# 				return array
-# 			end
-# 		end
-
-
-# 			# but if it runs out of options for words, then delete the item for the array
-
-
-
-# 		# num to get 2nd half
-		
-# 		# second half
-# 		# array << (array_single_chars[(index+1)..array_single_chars.length]).join
-# 		all_options_of_chars << array
-# 	end
-
-# 	# figure out how to repet process for multiple breaks in the array
-
-# 	return all_options_of_chars
-# end
-
-# def all_possible_word_combos
-# 	nouns = ["abcd", "c", "def", "h", "ij", "cde"]
-# 	verbs = ["bc", "fg", "g", "hij", "bcd"]
-# 	articles = ["a", "ac", "e"]
-
-# 	all = nouns + verbs + articles
-# 	return all.sort
-# end
-
-# p all_possible_word_combos
-# ["a", "abcd", "ac", "bc", "bcd", "c", "cde", "def", "e", "fg", "g", "h", "hij", "ij"]
 
 def show_all_valid_sentences(input)
 	nouns = ["abcd", "c", "def", "h", "ij", "cde"]
-	nouns = nouns.sort_by {|x| x.length}.reverse
+	# nouns = nouns.sort_by {|x| x.length}.reverse
 		# ["abcd", "cde", "def", "ij", "c", "h"]
 
 	verbs = ["bc", "fg", "g", "hij", "bcd"]
-	verbs = verbs.sort_by {|x| x.length}.reverse
+	# verbs = verbs.sort_by {|x| x.length}.reverse
 		# ["bcd", "hij", "fg", "bc", "g"]
 
 	articles = ["a", "ac", "e"]
-	articles = articles.sort_by {|x| x.length}.reverse
+	# articles = articles.sort_by {|x| x.length}.reverse
 		# ["ac", "e", "a"]
 
-		array = parse_for_noun(input)
+		# array = parse_for_noun(input)
 		# [["", "abcd", "efg"], ["ab", "c", "defg"], ["abc", "def", "g"], ["abcdefg", "h"], ["abcdefg", "ij"], ["ab", "cde", "fg"]]
+		array = all_possible_word_combos(input)
+
 		index_counter = 0
 		counter = 1
 		count = 1
@@ -470,9 +438,19 @@ def show_all_valid_sentences(input)
 			end
 
 			staging_sentence = staging_sentence.select! { |x| !x.nil? }
-			# staging_sentence = staging_sentence.sort! {|x, y| y <=> x}
-			# p staging_sentence
+			# staging_sentence = staging_sentence.select! { |x| !x.empty? }
+
+			# if staging_sentence
+			# 	staging_sentence.each do 
+			# # 		if s.length < 1
+
+			# 		staging_sentence = staging_sentence.sort_by {|x, y| x <=> y}
+			# # 			# staging_sentence.delete(s)
+			# # 		end
+			# 	end
+			# end
 			valid_sentence << staging_sentence 
+			# valid_sentence << final_array
 			# valid_sentence.shift
 			# 	sentence.s
 			# end
@@ -493,13 +471,32 @@ def show_all_valid_sentences(input)
 			# puts ""
 			index_counter += 1
 		end
-
 			final_output << valid_sentence[1..valid_sentence.count] # for sentence in valid_sentence do
 			output = final_output[0]
+			output_2 = []
 			for o in output do	
 				o = o.select! { |x| !x.empty? }
+				# does this option have a verb?
+				if  nil || o & nouns == false
+					output = ""
+				end
 				if  nil || o & verbs == false
-					output = 	""
+					output = ""
+				end
+				if  nil || o & articles == false
+					output = ""
+				end
+				# if it has more than 1 noun at least...
+				if  (o & nouns) != false && (o & nouns).count > 0
+					# if it has more than 1 verb at least...
+					if  (o & verbs) != false && (o & verbs).count > 0
+						# if it has more than 1 article at least...
+						if  (o & articles) != false && (o & articles).count < 2 
+							# output.delete(o)
+							p o
+							output_2 << o
+						end
+					end
 				end
 			end
 
@@ -507,7 +504,7 @@ def show_all_valid_sentences(input)
 				# output = ""
 			# end
 			puts "input : #{input}"
-			puts "output: #{output}"
+			puts "output: #{output_2}"
 
 	## check for step 1
 	# Out of the remaining letters, can words be created with the fragments without changing the order
@@ -537,7 +534,7 @@ end
 # show_all_valid_sentences("abcdefg")
 # abcd fg e
 
-p show_all_valid_sentences("abcdefg")
+# show_all_valid_sentences("abcdefg")
 # expect =>
 # [
 # "a bc def g",
@@ -547,13 +544,13 @@ p show_all_valid_sentences("abcdefg")
 
 puts " "
 
-show_all_valid_sentences("abcc")
+# show_all_valid_sentences("abcc")
 # expect =>
 # ["a bc c"]
 
 puts " "
 
-show_all_valid_sentences("abcd")
+# show_all_valid_sentences("abcd")
 # expect =>
 # []
 puts " "
