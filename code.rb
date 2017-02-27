@@ -5,13 +5,10 @@
 # Below is the Annkissam Dictionary:
 
 # Nouns: "abcd", "c", "def", "h", "ij", "cde"
-nouns = ["abcd", "c", "def", "h", "ij", "cde"]
 
 # Verbs: "bc", "fg", "g", "hij", "bcd"
-verbs = ["bc", "fg", "g", "hij", "bcd"]
 
 # Articles: "a", "ac", "e"
-articles = ["a", "ac", "e"]
 
 # However, the rules for creating a sentence in the Annkissam 
 # Language are very different. A valid sentence in the 
@@ -349,7 +346,7 @@ end
 # p all_possible_word_combos
 # ["a", "abcd", "ac", "bc", "bcd", "c", "cde", "def", "e", "fg", "g", "h", "hij", "ij"]
 
-def split_lots(input)
+def show_all_valid_sentences(input)
 	nouns = ["abcd", "c", "def", "h", "ij", "cde"]
 	nouns = nouns.sort_by {|x| x.length}.reverse
 		# ["abcd", "cde", "def", "ij", "c", "h"]
@@ -369,14 +366,13 @@ def split_lots(input)
 		count = 1
 		
 		valid_sentence = []
+		final_output = []
 
 		array.each do |x|
-			puts "#{index_counter}, "
-			puts "this is x: #{x} "
-			puts "processing..."
-			# x = ["ab", "c", "defg"]
-			# x_with_all = []
-			# x_with_all << x
+			# puts "#{index_counter}, "
+			# puts "this is x: #{x} "
+			# puts "processing..."
+
 			x_with_nouns = []
 			x_with_nouns << x
 			x_with_no_nouns = []
@@ -391,107 +387,44 @@ def split_lots(input)
 			saved_articles = []
 			saved_nouns = []
 			valid_counter = 0
-
+			staging_sentence = []
 
 			x.each do |i|
-				# i = "ab"
-				
 				x_with_no_nouns << i
 
 				for noun in nouns do 
 					noun_counter = 0
 					if noun == i 
 						removed_nouns << noun
-						# saved_nouns.insert(index_counter, noun)
-						valid_sentence.insert(noun_counter, noun)
-
-						# puts "noun #{noun} is equal to i #{i}"
+						staging_sentence.insert(index_counter, noun)
 						x_with_no_nouns.delete(noun)
-						puts "deleting noun: '#{noun}'"
+						# puts "deleting noun: '#{noun}'"
 						noun_counter += 1
 					else
 					end
-				end
-
-				
+				end	
 			end
-			# x.each do |i|
-				
-			# 	for noun in nouns do 
-
-			# 		i.delete(noun)
-			# 		# removed_nouns << noun
-			# 		# p i
-				
-			# 	end
-			# end
 
 			x = x_with_no_nouns
 			
-			# x.each do |i|
-			# 	x_with_no_verbs << i
-				
-			# 	i_verb = parse_for_verb(i)
-			# 	i = i_verb[0][0]
-			# 	# p i
-			# 	for verb in verbs do 
-			# 		if verb ==  i
-			# 			removed_verbs << verb
-			# 			# puts "noun #{noun} is equal to i #{i}"
-			# 			x_with_no_verbs.delete(verb)
-			# 			puts "deleting verb: '#{verb}'"
-			# 		else
-			# 		end
-			# 	end
-			# end
-			puts "deleting verbs..."
+			# puts "deleting verbs..."
 			x.each do |i|
-				# p x
-				# ["abcdefg"]
-				# p i
-				# "abcdefg"
-				# saved_verbs = []
-
-				# for verb in verbs do 
-				# 	counter = 0
-				# 	# p i
-				# 	if i.include?(verb)
-				# 		counter += 1
-				# 		# puts "no iscolated verbs present yet"
-				# 	end
-				# 	if counter > 1
-				# 		1..counter do
-				# 			array << x
-				# 		end
-				# 	end
-				# end
 				for verb in verbs do 
-					# p i
 					if i.include?(verb)
 # for each variation save different arrangement of verbs
-						puts "does this text left-over contains the verb? '#{i}' verb: #{verb}"
-						puts "removing verb: #{verb}"
+						# puts "does this text left-over contains the verb? '#{i}' verb: #{verb}"
+						# puts "removing verb: #{verb}"
 						saved_verbs << verb
-
-						# counter is the total
-						# num = 0
+						staging_sentence.insert(index_counter, verb)
 						i = i.delete(verb)
-						# if index 
-						# num += 1
 					else
-						# puts "no iscolated verbs present yet"
 					end
 				end
-				# puts "saved verbs #{saved_verbs}"
-				# puts "there were #{saved_verbs.count} saved verbs from left over strings"
 				left_overs_from_verb_surgerery << i
-				# puts "left overs #{left_overs_from_verb_surgerery}"
-
 			end
-			# x = x_with_no_verbs
-			puts " "
-			puts "number of verbs removed #{saved_verbs.count}: #{saved_verbs}" 
-			puts "left overs #{left_overs_from_verb_surgerery}"
+			# puts " "
+			# puts "number of verbs removed #{saved_verbs.count}: #{saved_verbs}" 
+			# puts "left overs #{left_overs_from_verb_surgerery}"
 			
 			x = left_overs_from_verb_surgerery
 			x.each do |i|
@@ -500,7 +433,7 @@ def split_lots(input)
 				for article in articles do 
 					if article == i 
 						removed_articles << article
-						# puts "noun #{noun} is equal to i #{i}"
+
 						x_with_no_articles.delete(article)
 					else
 					end
@@ -510,9 +443,10 @@ def split_lots(input)
 					# p i
 					if i.include?(article)
 
-						puts "does this text left-over contains the article? '#{i}' article: #{article}"
-						puts "removing article: #{article}"
+						# puts "does this text left-over contains the article? '#{i}' article: #{article}"
+						# puts "removing article: #{article}"
 						saved_articles << article
+						staging_sentence.insert(index_counter, article)
 
 						i = i.delete(article)
 					else
@@ -524,55 +458,51 @@ def split_lots(input)
 				left_overs_from_article_surgerery << i
 
 				if left_overs_from_article_surgerery.join.length < 1
-					puts "this is a valid sentence"
-					# valid_sentence << x
-					puts valid_sentence
-					# valid_sentence.insert(valid_counter, saved_verbs)
-					# valid_sentence.insert(valid_counter, saved_articles)
-					# valid_sentence.insert(valid_counter, saved_nouns)
+					# puts "this is a valid sentence"
+					# puts valid_sentence
+					
 					valid_counter += 1
 				end
 			end
-			puts " "
-			puts "Summary: "
-			puts "this is x with all #{array[index_counter]}"
-			# puts "this is x with nouns #{x_with_nouns}"
-			puts "i removed the noun, #{removed_nouns}"
-			# puts "this is x with no nouns #{x_with_no_nouns}, "
-				# 5,
-				# this is x with nouns [["ab", "cde", "fg"]]
-				# this is x with no nouns ["ab", "fg"],
-				# we removed , ["cde"]
-			puts ""
-			puts "then i take x_with_no_nouns as new input #{x_with_no_nouns} "
-			# puts "these are all the verbs #{verbs}"
-			# puts "this is x with no nouns, with 0-1 verb deleted #{x_with_no_verbs}"
-			puts "i then removed the verbs via string parsing #{saved_verbs}"
-			puts "this is x with no nouns, verbs deleted in the strings left #{left_overs_from_verb_surgerery}"
-			# puts "we removed the verbs #{removed_verbs}"
-			puts "there were #{saved_verbs.count} saved verbs from left over strings"
 
-				# expected x_with_no_verbs ["ab"]
-				# expected removed verbs ["fg"]
-				# got:
-				# this is x with no nouns ["ab", "fg"]
-				# this is x with no nouns, with no verbs ["ab"]
-				# we removed the verbs ["fg"]
-			puts ""
+			staging_sentence = staging_sentence.select! { |x| !x.nil? }
+			# staging_sentence = staging_sentence.sort! {|x, y| y <=> x}
+			# p staging_sentence
+			valid_sentence << staging_sentence 
+			# valid_sentence.shift
+			# 	sentence.s
+			# end
+			# puts " "
+			# puts "Summary: "
+			# puts "this is x with all #{array[index_counter]}"
 
-			puts "x with no articles #{left_overs_from_article_surgerery}"
-				
-
-			# puts "these are all the articles available #{articles}"
-			puts "we removed the articles #{saved_articles}"
-			puts ""
-			# puts "if there is anything left in i, it should be 2 articles or more, otherwise it is not a sentence"
-			# puts "if nothing is left, then sort the array and display as one option"
-			puts ""
+			# puts "i removed the noun, #{removed_nouns}"
+			# puts ""
+			# puts "then i take x_with_no_nouns as new input #{x_with_no_nouns} "
+			# puts "i then removed the verbs via string parsing #{saved_verbs}"
+			# puts "this is x with no nouns, verbs deleted in the strings left #{left_overs_from_verb_surgerery}"
+			# puts "there were #{saved_verbs.count} saved verbs from left over strings"
+			# puts ""
+			# puts "x with no articles #{left_overs_from_article_surgerery}"
+			# puts "we removed the articles #{saved_articles}"
+			# puts ""
+			# puts ""
 			index_counter += 1
 		end
-
-			puts "#{valid_sentence.sort}"
+			if valid_sentence == nil
+				valid_sentence = ""
+			else	
+				final_output << valid_sentence[1..valid_sentence.count] # for sentence in valid_sentence do
+				output = final_output[0]
+			end
+			# for o in output do	
+			# 	o.sort!
+			# end
+			# if output == nil
+			# 	output = ""
+			# end
+			puts "input : #{input}"
+			puts "output: #{output}"
 
 	## check for step 1
 	# Out of the remaining letters, can words be created with the fragments without changing the order
@@ -599,7 +529,7 @@ def split_lots(input)
 
 end
 
-split_lots("abcdefg")
+show_all_valid_sentences("abcdefg")
 # abcd fg e
 
 # p show_all_valid_sentences("abcdefg")
@@ -612,13 +542,13 @@ split_lots("abcdefg")
 
 # puts " "
 
-# show_all_valid_sentences("abcc")
+show_all_valid_sentences("abcc")
 # expect =>
 # ["a bc c"]
 
 # puts " "
 
-# show_all_valid_sentences("abcd")
+show_all_valid_sentences("abcd")
 # expect =>
 # []
 # puts " "
